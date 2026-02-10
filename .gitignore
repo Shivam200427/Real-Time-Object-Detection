@@ -1,0 +1,34 @@
+# Data directories (too large for GitHub)
+data/LLVIP/
+data/FLIR_ADAS_v2/
+data/llvip_processed/
+data/unified_dataset/
+data/sample/
+
+# Weights (large binary files)
+weights/*.pth
+outputs/checkpoints/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+*.egg-info/
+
+# Environment
+.env
+.venv/
+venv/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Outputs
+outputs/*.png
+outputs/*.jpg

@@ -1,0 +1,44 @@
+# FLIR ADAS Specific Configuration
+# Inherits from default.yaml and overrides specific values
+
+model:
+  backbone: "resnet34"
+  pretrained: true
+  fusion_type: "attention"
+  fpn_channels: 256
+  num_classes: 15  # FLIR ADAS has more classes
+  freeze_backbone_stages: 2
+  class_names:
+    - "person"
+    - "car"
+    - "bicycle"
+    - "dog"
+    - "bus"
+    - "motorcycle"
+    - "truck"
+    - "traffic_light"
+    - "fire_hydrant"
+    - "stop_sign"
+    - "skateboard"
+    - "stroller"
+    - "scooter"
+    - "other_vehicle"
+    - "other"
+
+dataset:
+  name: "flir_adas"
+  root: "data/raw/FLIR_ADAS"
+  annotation_file: "data/annotations/flir_adas_coco.json"
+  img_size: [640, 640]
+  rgb_dir: "rgb"
+  thermal_dir: "thermal"
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  num_workers: 4
+
+training:
+  epochs: 80
+  batch_size: 8
+  learning_rate: 0.0005
+  weight_decay: 0.0001

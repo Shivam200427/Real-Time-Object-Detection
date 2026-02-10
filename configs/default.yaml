@@ -1,0 +1,87 @@
+# Default Configuration for Multi-Sensor Detector
+
+# Model
+model:
+  backbone: "resnet34"
+  pretrained: true
+  fusion_type: "attention"  # attention | concat | add
+  fpn_channels: 256
+  num_classes: 10  # person, bike, car, motor, bus, truck, light, sign, dog, other_vehicle
+  class_names:
+    - person
+    - bike
+    - car
+    - motor
+    - bus
+    - truck
+    - light
+    - sign
+    - dog
+    - other_vehicle
+  freeze_backbone_stages: 2
+
+# Detection Head
+head:
+  num_convs: 4
+  use_centerness: true
+  score_threshold: 0.3
+  nms_threshold: 0.5
+  max_detections: 100
+
+# Training
+training:
+  epochs: 50
+  batch_size: 8
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  warmup_iterations: 1000
+  scheduler: "cosine"  # cosine | step | plateau
+  step_milestones: [30, 40]
+  step_gamma: 0.1
+
+# Dataset
+dataset:
+  name: "unified"
+  root: "data/unified_dataset"
+  img_size: [640, 640]
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  num_workers: 4
+
+# Augmentation
+augmentation:
+  horizontal_flip: 0.5
+  color_jitter: 0.3
+  random_crop: true
+  crop_scale: [0.8, 1.0]
+  normalize_rgb:
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  normalize_thermal:
+    mean: [0.5]
+    std: [0.25]
+
+# Loss
+loss:
+  focal_alpha: 0.25
+  focal_gamma: 2.0
+  cls_weight: 1.0
+  reg_weight: 1.0
+  centerness_weight: 1.0
+
+# Logging
+logging:
+  log_dir: "outputs/logs"
+  checkpoint_dir: "outputs/checkpoints"
+  results_dir: "outputs/results"
+  log_interval: 50
+  save_interval: 5
+  tensorboard: true
+
+# Inference
+inference:
+  weights: "outputs/checkpoints/best_model.pth"
+  score_threshold: 0.4
+  nms_threshold: 0.5
+  device: "auto"  # auto | cuda | cpu
